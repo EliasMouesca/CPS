@@ -3,6 +3,13 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+void copyMatrix(bool** src, bool** dst, int n)
+{
+    for (int i = 0; i < n; i++)
+    for (int j = 0; j < n; j++)
+        dst[j][i] = src[j][i];
+}
+
 bool **createMatrix(int n) {
     bool **matrix = (bool **)malloc(n * sizeof(bool *));
     if (matrix == NULL) {

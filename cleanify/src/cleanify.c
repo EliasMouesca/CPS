@@ -10,6 +10,8 @@ static bool independentTaskPresent(bool** m, int s);
 static bool isTaskIndependent(bool**, int size, int task);
 static void clean(bool** matrix, int size);
 
+static void recur(bool** matrix, int size, int row, int drow);
+
 bool cleanify(bool** input, bool** output, int s)
 {
     if (check(input, s) == false) 
@@ -17,6 +19,8 @@ bool cleanify(bool** input, bool** output, int s)
         puts("Circular dependency detected!");
         return false;
     }
+
+    copyMatrix(input, output, s);
 
     clean(output, s);
 
@@ -29,13 +33,26 @@ bool cleanify(bool** input, bool** output, int s)
 
 void cleanTask(bool** matrix, int size, int row)
 {
+    if (isTaskIndependent(matrix, size, row)) return;
+
     for (int d = 0; d < size; d++)
-    {
-        for (int i = 0; i < size; i++)
-            if (matrix[row][d] != 0 && matrix[row][i] && matrix[d][i] != 0)
+        if (matrix[row][d] != 0)
+            recur(matrix, size, row, d);
+
+    return;
+}
+
+void recur(bool** matrix, int size, int row, int drow)
+{
+    if (isTaskIndependent(matrix, size, drow)) return;
+
+    for (int i = 0; i < size; i++)
+        if (matrix[drow][i] != 0)
+        {
+            if (matrix[row][i] != 0 && matrix[drow][i] != 0)
                 matrix[row][i] = 0;
-        cleanTask(matrix, size, d);
-    }
+            recur(matrix, size, row, i);
+        }
 
     return;
 }
