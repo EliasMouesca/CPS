@@ -1,0 +1,25 @@
+CC = gcc
+CFLAGS = -Wall -Wextra -ggdb
+LDFLAGS =
+
+OBJDIR = obj
+SRCDIR = src
+
+SRC = $(wildcard $(SRCDIR)/*.c)
+OBJ = $(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(SRC))
+
+EXEC = cps
+
+$(EXEC): $(OBJ)
+	$(CC) -o $@ $(LDFLAGS) $^
+
+$(OBJDIR)/%.o: $(SRCDIR)/%.c
+	$(CC) -c $< -o $@
+
+clean:
+	rm $(OBJDIR)/*
+
+.PHONY: clean
+
+
+
