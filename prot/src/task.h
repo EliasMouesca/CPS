@@ -7,6 +7,7 @@ typedef struct task
 {
     char n[NAME_MAX_LEN];
     int t;
+
     struct task* d;
 } task;
 

@@ -1,4 +1,5 @@
 #include <stdio.h>
+
 int main()
 {
 
@@ -11,8 +12,6 @@ int main()
     char formatString[160];
 
     snprintf(formatString, sizeof(formatString), "%%[^%c] %c %%d %c %%[^\n]", delimiter, delimiter, delimiter);
-
-    //printf("%s", formatString);
 
     scanf(formatString, name, &time, depen);
 

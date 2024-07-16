@@ -1,11 +1,9 @@
 
 #include <stdio.h>
 
-#include "task.h"
+#include "entry.h"
 
-// Format: "tarea1,
-
-bool parseFile(const char* file, taskList* tasks)
+bool parseFile(const char* file, )
 {
     
 
