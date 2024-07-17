@@ -3,7 +3,7 @@
 
 #include <stdbool.h>
 
-bool cleanify(bool**, bool**, int);
+void cleanify(bool**, bool**, int);
 
 #endif
 

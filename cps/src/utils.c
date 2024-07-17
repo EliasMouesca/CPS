@@ -2,6 +2,15 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <errno.h>
+
+const char* ERROR_MESSAGE = "Error";
+
+void die()
+{
+    perror(ERROR_MESSAGE);
+    exit(EXIT_FAILURE);
+}
 
 void copyMatrix(bool** src, bool** dst, int n)
 {

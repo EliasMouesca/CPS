@@ -8,7 +8,7 @@ SRCDIR = src
 SRC = $(wildcard $(SRCDIR)/*.c)
 OBJ = $(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(SRC))
 
-EXEC = parser
+EXEC = cps
 
 $(EXEC): $(OBJ)
 	$(CC) -o $@ $(LDFLAGS) $^

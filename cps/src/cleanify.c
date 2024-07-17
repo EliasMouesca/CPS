@@ -17,12 +17,12 @@ static bool isTaskIndependent(bool**, int size, int task);
 // Cleanify takes a matrix of task as input and
 // returns error if circular dependency is detected
 // or loads output with the redundancy-free version of the input.
-bool cleanify(bool** input, bool** output, int s)
+void cleanify(bool** input, bool** output, int s)
 {
     if (check(input, s) == false) 
     {
         puts("Circular dependency detected!");
-        return false;
+        exit(EXIT_FAILURE);
     }
 
     copyMatrix(input, output, s);
@@ -33,7 +33,7 @@ bool cleanify(bool** input, bool** output, int s)
     printf("\n\n");
     printMatrix(output, s, s);
 
-    return true;
+    return;
 }
 
 void cleanDependency(bool** matrix, int size, int task, int depen)
@@ -96,9 +96,11 @@ bool check(bool** matrix, int size)
 
             // Check if there's at least one independent task
             if (!independentTaskPresent(sm, s)) 
+            {
                 // If not => circular dependency !
                 freeMatrix(sm, s);
                 return false;
+            }
         }
         freeMatrix(sm, s);
     }
