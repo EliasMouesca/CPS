@@ -41,7 +41,7 @@ bool parse(char* filename)
     const char delimiter = '|';
     char format[64];
     snprintf(format, sizeof(format), 
-            "%%%ld[^%c] %c %%d %c %%%ld[^\n]", 
+            " %%%ld[^%c] %c %%d %c %%%ld[^\n]", 
             sizeof(name) - 1, delimiter, delimiter, delimiter, sizeof(depen) - 1);
 
     char* line = malloc(MAX_LINE_LENGTH);
