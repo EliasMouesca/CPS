@@ -9,12 +9,14 @@
 
 int main()
 {
-
     char filename[] = "easy.cpm";
     nTasks = getNumberOfTasks(filename);
 
-    if (nTasks > 0) printf("Found %d tasks!", nTasks);
-    else return -1;
+    if (nTasks <= 0) 
+    {
+        puts("No tasks were found!");
+        exit(EXIT_FAILURE);
+    }
 
     taskNames = malloc(nTasks * sizeof(char*));
 
@@ -24,6 +26,11 @@ int main()
     
     parse(filename);
     cleanify(tmp, taskMatrix, nTasks);
+    freeMatrix(tmp, nTasks);
+
+
+
+    freeMatrix(taskMatrix, nTasks);
 
     return 0;
 }

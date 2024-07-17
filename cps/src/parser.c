@@ -7,8 +7,13 @@
 #include "globals.h"
 
 #include "utils.h"
+#include "entry.h"
 
 static bool isTask(char* str);
+static void loadStructures(char* filename);
+static char format[64];
+static const char delimiter = '|';
+static entry* entries;
 
 int getNumberOfTasks(char* filename)
 {
@@ -18,7 +23,7 @@ int getNumberOfTasks(char* filename)
     if (file == NULL) die();
     
     int i = 0;
-    char* line = malloc(MAX_LINE_LENGTH);
+    char* line = malloc(MAX_LINE_LENGTH + 1);
     while (fgets(line, MAX_LINE_LENGTH, file) != NULL) 
         if (isTask(line)) i++;
 
@@ -27,54 +32,63 @@ int getNumberOfTasks(char* filename)
     return i;
 }
 
-bool parse(char* filename)
+void loadStructures(char* filename)
 {
     if (filename == NULL) die();
 
     FILE* file = fopen(filename, "r");
     if (file == NULL) die();
 
-    char name[MAX_TASK_NAME_LENGTH];
+    char* line = malloc(MAX_LINE_LENGTH + 1);
+
+    char name[MAX_TASK_NAME_LENGTH + 1];
     int time;
-    char depen[MAX_DEPENDENCIES_LENGTH];
+    char depen[MAX_DEPENDENCIES_LENGTH + 1];
 
-    const char delimiter = '|';
-    char format[64];
-    snprintf(format, sizeof(format), 
-            " %%%ld[^%c] %c %%d %c %%%ld[^\n]", 
-            sizeof(name) - 1, delimiter, delimiter, delimiter, sizeof(depen) - 1);
-
-    char* line = malloc(MAX_LINE_LENGTH);
-    int lineNumber = 1;
     int taskNumber = 0;
     while (fgets(line, MAX_LINE_LENGTH, file) != NULL)
     {
         if (!isTask(line)) continue;
 
-        int read = sscanf(line, format, name, &time, depen);
-        if (read != 3) printf("Error encountered on line '%d' of file '%s'\n", lineNumber, filename);
-        else
+        if (sscanf(line, format, name, &time, depen) != NUMBER_OF_FIELDS)
         {
-            printf("\nName:'%s'\nTime: %d\nDependencies: '%s'\n\n", name, time, depen);
-            printMatrix(taskMatrix, nTasks, nTasks);
-
-            //name = strip(name);
-            
-            taskNames[taskNumber] = malloc(sizeof(name));
-            memcpy(taskNames[taskNumber], name, sizeof(name)); 
-
-
-
-            taskNumber++;
-
+            printf("Task %d is not well formed! Exiting...\n", taskNumber + 1);
+            exit(EXIT_FAILURE);
         }
 
-        lineNumber++;
+        strip(name);
+            
+        entry* entry = entries + taskNumber;
+
+        entry->name = malloc(MAX_TASK_NAME_LENGTH + 1);
+        memcpy(entry->name, name, MAX_TASK_NAME_LENGTH); 
+        entry->time = time;
+        entry->depen = malloc(MAX_DEPENDENCIES_LENGTH + 1);
+        memcpy(entry->depen, depen, MAX_DEPENDENCIES_LENGTH);
+
+        taskNumber++;
     }
 
-
-
     fclose(file);
+
+}
+
+bool parse(char* filename)
+{
+    snprintf(format, sizeof(format), 
+            " %%%ld[^%c] %c %%d %c %%%ld[^\n]", 
+            MAX_TASK_NAME_LENGTH, 
+            delimiter, delimiter, delimiter, 
+            MAX_TASK_NAME_LENGTH);
+    
+    entries = calloc(nTasks, sizeof(entry));
+
+    loadStructures(filename);
+
+    for (int i = 0; i < nTasks; i++)
+    {
+        printf("%d -> '%s'\n", i, entries[i].name);
+    }
 
     return true;
 }

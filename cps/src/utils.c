@@ -3,8 +3,30 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <errno.h>
+#include <string.h>
+#include <ctype.h>
 
 const char* ERROR_MESSAGE = "Error";
+
+void strip(char* str)
+{
+    int len = strlen(str);
+
+    int i = 0;
+    while ( str[i] != '\0' && isspace(str[i]) ) i++;
+
+    int j = len - 1;
+    while ( str[j] != '\0' && isspace(str[j]) ) j--;
+
+    int newLen = j - i + 1;
+    char* tmp = malloc( (newLen + 1) * sizeof(char) );
+
+    memcpy(tmp, str + i, newLen);
+    memcpy(str, tmp, newLen);
+    str[newLen] = '\0';
+
+    return;
+}
 
 void die()
 {
