@@ -63,9 +63,13 @@ void loadStructures(char* filename)
 
         entry->name = malloc(MAX_TASK_NAME_LENGTH + 1);
         memcpy(entry->name, name, MAX_TASK_NAME_LENGTH); 
+        entry->name[MAX_TASK_NAME_LENGTH] = '\0';
+
         entry->time = time;
+
         entry->depen = malloc(MAX_DEPENDENCIES_LENGTH + 1);
         memcpy(entry->depen, depen, MAX_DEPENDENCIES_LENGTH);
+        entry->depen[MAX_DEPENDENCIES_LENGTH] = '\0';
 
         taskNumber++;
     }

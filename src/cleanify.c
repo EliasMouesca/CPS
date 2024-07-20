@@ -6,7 +6,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-
 static bool check(bool** m, int size);
 static void clean(bool** matrix, int size);
 static void cleanDependency(bool** matrix, int size, int row, int drow);
@@ -15,7 +14,7 @@ static bool independentTaskPresent(bool** m, int s);
 static bool isTaskIndependent(bool**, int size, int task);
 
 // Cleanify takes a matrix of task as input and
-// returns error if circular dependency is detected
+// dies if circular dependency is detected
 // or loads output with the redundancy-free version of the input.
 void cleanify(bool** input, bool** output, int s)
 {
