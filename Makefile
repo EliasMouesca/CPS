@@ -10,16 +10,19 @@ OBJ = $(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(SRC))
 
 EXEC = cps
 
-$(EXEC): $(OBJ)
-	$(CC) -o $@ $(LDFLAGS) $^
+$(EXEC): $(OBJDIR) $(OBJ)
+	$(CC) -o $@ $(LDFLAGS) $(OBJ)
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c 
 	$(CC) -c $< -o $@ $(CFLAGS)
 
+$(OBJDIR):
+	mkdir $(OBJDIR)
+
 clean:
 	rm $(OBJDIR)/*
 
-.PHONY: clean
+.PHONY: clean $(OBJDIR)
 
 
 
