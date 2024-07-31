@@ -2,4 +2,7 @@
 cps
 obj/
 obj
+input.cpm
+demos/*
+demos
 
