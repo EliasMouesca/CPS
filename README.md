@@ -1,6 +1,9 @@
 # CPS
 Critical Path Solver (CPS) es un programa para resolver los ejercicios de CPM. Lo vimos en análisis de sistemas en la UTN en 2do año de la carrera de ingeniería en sistemas de la información. ¿Por qué? Para practicar para sistemas operativos, por aburrimiento, por el placer de hacerlo, porque sí.
 
+## Under Development
+It's not finished. Currently, it can only parse an input file and check for circular dependencies, all the "solve the cps" logic is missing, yeah...
+
 ## Uso
 El programa (por ahora) no grafica el diagrama, es simplemente demasiado. Pero le podes pasar la tabla de dependencias y recibir la forma correcta de dibujar el diagrama. Dejemosle a las máquinas hacer lo que saben hacer bien y a los seres humanos, dibujar.
 ```bash
